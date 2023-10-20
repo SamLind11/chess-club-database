@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Table, MetaData
-from sqlalchemy.sql import insert, select
+from sqlalchemy.sql import insert, select, update
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -84,6 +84,7 @@ def create_member(member: Member):
 @app.post("/games/")
 def create_game(game: Game):
     with engine.connect() as connection:
+        # Add new game to the games table.
         result = connection.execute(insert(games).values(
             datePlayed=game.datePlayed,
             whiteId=game.whiteId,
@@ -95,4 +96,14 @@ def create_game(game: Game):
             blackOldRating=game.blackOldRating,
             blackNewRating=game.blackNewRating,
             pgn=game.pgn))
-        return {"id": result.inserted_primary_key[0]}
+        
+        # Update each player's rating and gamesPlayed column in the members table.
+        connection.execute(update(members) 
+                            .where(members.c.id == game.whiteId)
+                            .values(rating=game.whiteNewRating,
+                                    gamesPlayed=members.c.gamesPlayed + 1))
+        connection.execute(update(members) 
+                            .where(members.c.id == game.blackId)
+                            .values(rating=game.blackNewRating,
+                                    gamesPlayed=members.c.gamesPlayed + 1))
+    return {"id": result.inserted_primary_key[0]}
