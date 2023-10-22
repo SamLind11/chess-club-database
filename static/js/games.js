@@ -138,3 +138,32 @@ function ratingCalc(winnerRating, loserRating, draw=false) {
     return [winnerNew, loserNew];
 }
 
+// Populate table with games data.
+window.onload = (event) => {
+    let table = document.getElementById('games-table');
+
+    //Retrieve games data from API.
+    fetch('http://localhost:8000/games/')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(element => {
+                let row = document.createElement('tr');
+
+                row.innerHTML = 
+                    `<td>${element.id}</td>` + 
+                    `<td>${element.datePlayed}` +
+                    `<td>${element.whiteScore}-${element.blackScore}</td>` + 
+                    `<td>${element.whiteFirstName} ${element.whiteLastName}</td>` + 
+                    `<td>${element.whiteId}</td>` + 
+                    `<td>${element.whiteOldRating} <span>&#8594;</span> ${element.whiteNewRating}</td>` + 
+                    `<td>${element.blackFirstName} ${element.blackLastName}</td>` + 
+                    `<td>${element.blackId}</td>` + 
+                    `<td>${element.blackOldRating} <span>&#8594;</span> ${element.blackNewRating}</td>`
+                
+                table.appendChild(row);
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}

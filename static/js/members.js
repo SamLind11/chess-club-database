@@ -24,6 +24,5 @@ window.onload = (event) => {
         })
         .catch((error) => {
             console.error('Error:', error);
-        }
-    );
+        });
 }

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Table, MetaData
-from sqlalchemy.sql import insert, select, update
+from sqlalchemy.sql import insert, select, update, join, alias
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -79,6 +79,32 @@ def create_member(member: Member):
                                 dateOfBirth=member.dateOfBirth, 
                                 dateJoined=member.dateJoined))
         return {"id": result.inserted_primary_key[0]}
+    
+# Get method for returning all games.
+@app.get("/games/")
+async def read_games():
+    session = Session(engine)
+
+    # Create aliases for the members table.
+    white_members = alias(members, "white_members")
+    black_members = alias(members, "black_members")
+
+    # Define a query that includes the player names.
+    query = session.query(games, 
+                          white_members.c.firstName.label('whiteFirstName'), 
+                          white_members.c.lastName.label('whiteLastName'), 
+                          black_members.c.firstName.label('blackFirstName'), 
+                          black_members.c.lastName.label('blackLastName')) \
+    .join(white_members, games.c.whiteId == white_members.c.id) \
+    .join(black_members, games.c.blackId == black_members.c.id)
+
+    # Execute the query and fetch all rows.
+    all_games = query.all()
+    session.close()
+
+    games_dict = [dict(row) for row in all_games]
+
+    return games_dict
 
 # Post method for adding a new game to the 'games' table.
 @app.post("/games/")
