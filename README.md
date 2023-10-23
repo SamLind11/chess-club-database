@@ -1,5 +1,5 @@
 # Chess Club Database
-Creating a database powered web app for small, local or school-based chess clubs.  This app allows club advisors track of your club's members, ratings, and matches.
+This repository contains files for a database-powered web app for small, local or school-based chess clubs.  This app allows club advisors track of your club's members, ratings, and matches.
 
 ## Data Structure
 This app utilizes stores club data in a SQLite database.  The database contains a **members** table and a **games** table: the **members** table is indexed by a member's id.  The **games** table is indexed by the game id, and contains member ids for both white and black, which are foreign keys that reference the members table.  The games table also contains both players' ratings before and after the game, allowing users to track their rating progression over time.
