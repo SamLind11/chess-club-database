@@ -2,12 +2,25 @@ body {
     align-content: center;
 }
 
-.form-container {
+#game-box {
     border: 3px solid black;
     padding: 5px;
     width: 50%;
     display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.form-container {
+    border: 3px solid black;
+    padding: 5px;
+    width: 25%;
+}
+
+form {
+    display: flex;
     flex-direction: column;
+    gap: 3px;
 }
 
 table, tr, th, td {

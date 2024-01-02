@@ -8,14 +8,14 @@
 </head>
 <body>
   <nav>
-    <a href="index.html">Add New Member</a>
-    <a href="members.html">Members</a>
+    <button onclick="location.href='index.html'">Home Page</button>
+    <button onclick="location.href='members.html'">Members</button>
   </nav>
 
-  <div class="form-container">
-    <h2>New Game Entry</h2>
-    <form id="form">
-      <div>
+  <div id="game-box">
+    <div>
+      <h2>New Game Entry</h2>
+      <form id="game-form" onsubmit="return false">
         <div>
           <label for="datePlayed">Date Played:</label>
           <input type="date" id="datePlayed" name="datePlayed" required>
@@ -29,23 +29,30 @@
           <input type="text" id="blackId" name="blackId" required>
         </div>
         <div>
-          <label for="result">Game Result:</label>
+          <label for="result">Game Result:</label> 
+          <br>
+          <input type="radio" id="whiteWin" name="result" value="white" required> 
           <label for="whiteWin">White</label>
-          <input type="radio" id="whiteWin" name="result" value="white" required>
+          <br>
+          <input type="radio" id="blackWin" name="result" value="black"> 
           <label for="blackWin">Black</label>
-          <input type="radio" id="blackWin" name="result" value="black">
-          <label for="draw">Draw</label>
+          <br>
           <input type="radio" id="draw" name="result" value="draw">
+          <label for="draw">Draw</label>
         </div>
         <div>
           <label for="pgn">Game PGN (Optional)</label>
           <input type="text" id="pgn" name="pgn">
         </div>
-      </div>
-      <div>
-        <button id="submit">Add New Game</button>
-      </div>
-    </form>
+        <div>
+          <button id="submit">Add New Game</button>
+        </div>
+      </form>
+    </div>
+    <div id="display-results">
+      <p id="whiteRatingChange"></p>
+      <p id="blackRatingChange"></p>
+    </div>
   </div>
   <br>
   <!--Table for displaying all games.-->

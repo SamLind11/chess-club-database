@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import create_engine, Table, MetaData
-from sqlalchemy.sql import insert, select, update, join, alias
+from sqlalchemy.sql import insert, select, update, join, alias, text
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional

@@ -5,14 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Members</title>
   <link href="../css/style.css" rel="stylesheet">
-  <script src="../js/members.js"></script>
 </head>
 <body>
   <nav>
-    <a href="index.html">Add New Member</a>
-    <a href="games.html">Games</a>
+    <button onclick="location.href='index.html'">Home Page</button>
+    <button onclick="location.href='games.html'">Games</button>  
   </nav>
 
+  <div class="form-container">
+    <h2>New Member Entry</h2>
+    <form id="form">
+      <div>
+        <label for="firstName">First Name</label>
+        <input id="firstName" type="text" required>
+      </div>
+      <div>
+        <label for="lastName">Last Name</label>
+        <input id="lastName" type="text" required>
+      </div>
+      <div>
+        <label for="dob">Date of Birth</label>
+        <input id="dob" type="date" required>
+      </div>
+      <div>
+        <button>Add New Member</button>
+      </div>
+    </form>
+  </div>
   <table id="member-table">
     <tr>
       <th>Member ID</th>
@@ -24,5 +43,7 @@
       <th>Member Birthday</th>
     </tr>
   </table>
+  <script src="../js/members.js"></script>
+
 </body>
 </html>

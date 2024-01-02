@@ -1,5 +1,5 @@
 // Name variables for html elements.
-const form = document.getElementById("form");
+const form = document.getElementById("game-form");
 const datePlayed = document.getElementById("datePlayed");
 const whiteId = document.getElementById("whiteId");
 const blackId = document.getElementById("blackId");
@@ -8,14 +8,16 @@ const submit = document.getElementById("submit");
 
 form.addEventListener('submit', addGame);
 
+let whiteNewRating = null;
+let blackNewRating = null;
+let whiteOldRating = null;
+let blackOldRating = null;
+
 // Add new game to games table using API.
 function addGame(e) {
     e.preventDefault();
 
     // Fetch user ratings from API.
-    let whiteOldRating;
-    let blackOldRating;
-    
     fetch(`http://localhost:8000/members/${whiteId.value}`)
         .then(response => response.json())
         .then(data => {
@@ -43,12 +45,13 @@ function addGame(e) {
 function postGame(wRating, bRating) {
     const result = document.querySelector('input[name="result"]:checked');
 
+
+    let newRatings;
+    let gameResult = result.value;
     let whiteScore;
     let blackScore;
-    let newRatings;
-    let whiteNewRating;
-    let blackNewRating;
-    let gameResult = result.value;
+
+    // Assign scores based on result and calculate new ratings.
     if (gameResult === 'white') {
         whiteScore = 1;
         blackScore = 0;
@@ -101,6 +104,13 @@ function postGame(wRating, bRating) {
         whiteId.value = '';
         blackId.value = '';
         pgn.value = '';
+
+        // // Print rating changes to the webpage.
+        // whiteP = document.getElementById('whiteRatingChange');
+        // blackP = document.getElementById('blackRatingChange');
+
+        // whiteP.innerHTML = `${wRating} <span>&#8594;</span> ${whiteNewRating}`;
+        // blackP.innerHTML = `${bRating} <span>&#8594;</span> ${blackNewRating}`;
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -162,7 +172,15 @@ window.onload = (event) => {
                 
                 table.appendChild(row);
             });
-        })
+            // Print rating changes to the webpage.
+            // whiteP = document.getElementById('whiteRatingChange');
+            // blackP = document.getElementById('blackRatingChange');
+
+            // whiteP.innerHTML = `${whiteOldRating} <span>&#8594;</span> ${whiteNewRating}`;
+            // blackP.innerHTML = `${whiteNewRating} <span>&#8594;</span> ${blackNewRating}`;
+
+
+            })
         .catch((error) => {
             console.error('Error:', error);
         });
